@@ -21,7 +21,21 @@ tableData.forEach(element =>{
 // 1.2 - Filter the table
 //-----------------------
 
-var inputDate = d3.select("#datetime")
+
 
 var filterButton = d3.select("#filter-btn");
+
+filterButton.on("click", function() {
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
+
+    // Select the input element
+    var inputDate = d3.select("input")
+    
+    console.log(inputDate.property("value"))
+    // Filter the data
+    var filteredData = tableData.filter(elem => 
+        elem.datetime === inputDate.property("value"))
+    console.log(filteredData)
+})
 
