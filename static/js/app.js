@@ -1,5 +1,5 @@
 // from data.js
-var tableData = data;
+var fullTable = data;
 
 // 1.1 - Fill up the table
 //------------------------
@@ -8,7 +8,7 @@ var tableData = data;
     var tbody = d3.select("tbody")
 
     // Adding the row and filling the cells
-    addDataToTbody(tableData)
+    addDataToTbody(fullTable)
 
 
 // 1.2 - Filter the table
@@ -19,27 +19,61 @@ filterButton.on("click", function() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
 
-    // Select the input element
-    var inputDate = d3.select("input")    
-    
-    console.log(inputDate.property("value"))
+    // Select the input elements
+    let inputDate = d3.select("#datetime").property("value")
+    let inputCity = d3.select("#city").property("value")
+    let inputState = d3.select("#state").property("value")
+    // console.log(inputDate)
+    // console.log(inputCity)
+    // console.log(inputState)
 
-    // Filter the data
-    var filteredData = tableData.filter(elem => 
-        elem.datetime === inputDate.property("value"))
-    console.log(filteredData)
+    
+    // Filter the data (only if there is a value to filter on)
+    let filteredTable = fullTable
+    if (inputDate != "All" && inputDate != ""){
+        filteredTable = filterData(filteredTable, inputDate, "date")
+    }
+    if (inputCity != "All" && inputCity != ""){
+        filteredTable = filterData(filteredTable, inputCity, "city")
+    }
+    if (inputState != "All" && inputState != ""){
+        filteredTable = filterData(filteredTable, inputState, "state")
+    }
+
+    // var filteredData = fullTable.filter(elem => 
+    //     elem.datetime === inputDate.property("value"))
+    // console.log(filteredData)
+    // filteredTable = filterData(fullTable, inputDate, "date")
+
+    // Remove the existing content of the table
+    // NB: tbody level!!!!!! 
+    d3.select('#ufo-tbody').html("")
+
+    // Update the tbody with the filtered data
+    addDataToTbody(filteredTable)
+
+})
+
+// Get ALL the data back
+var AllDataButton = d3.select("#all-btn")
+
+AllDataButton.on("click", function(){
+    // Prevent the page from refreshing
+    d3.event.preventDefault();
 
     // Remove the existing content of the table
     // NB: tbody level
     d3.select('#ufo-tbody').html("")
 
-    // Update the tbody with the filtered data
-    addDataToTbody(filteredData)
+    // Update the tbody with the full Data
+    addDataToTbody(fullTable)
 
+    // Update the field on the input element
+    d3.select("input").property("value","")
 })
 
 
-// Function to add row to the tbody
+// Function to add rows to the tbody
 function addDataToTbody(data_table){    
     data_table.forEach(element =>{
         // Adding a row
@@ -53,8 +87,25 @@ function addDataToTbody(data_table){
     })
 }
 
+// Filtering function
+function filterData(ftable, fvalue, fkey){
+    /* inputs:
+        > table: table to filter
+        > fvalue: filtering value
+        > fkey: filtering key
+    */
+    switch (fkey) {
+        case "date":
+            return ftable.filter(elem => elem.datetime === fvalue)
+        case "city":
+            return ftable.filter(elem => elem.city === fvalue)
+        case "state":
+            return ftable.filter(elem => elem.state === fvalue)
+        case "shape":
+            return ftable.filter(elem => elem.shape === fvalue)
+    }
 
-
+}
 
 
 
