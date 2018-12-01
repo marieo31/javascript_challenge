@@ -23,11 +23,7 @@ filterButton.on("click", function() {
     let inputDate = d3.select("#datetime").property("value")
     let inputCity = d3.select("#city").property("value")
     let inputState = d3.select("#state").property("value")
-    // console.log(inputDate)
-    // console.log(inputCity)
-    // console.log(inputState)
 
-    
     // Filter the data (only if there is a value to filter on)
     let filteredTable = fullTable
     if (inputDate != "All" && inputDate != ""){
@@ -39,11 +35,6 @@ filterButton.on("click", function() {
     if (inputState != "All" && inputState != ""){
         filteredTable = filterData(filteredTable, inputState, "state")
     }
-
-    // var filteredData = fullTable.filter(elem => 
-    //     elem.datetime === inputDate.property("value"))
-    // console.log(filteredData)
-    // filteredTable = filterData(fullTable, inputDate, "date")
 
     // Remove the existing content of the table
     // NB: tbody level!!!!!! 
@@ -76,13 +67,13 @@ AllDataButton.on("click", function(){
 // Function to add rows to the tbody
 function addDataToTbody(data_table){    
     data_table.forEach(element =>{
+
         // Adding a row
         var row = tbody.append("tr")
-        // console.log("add row")
+
         // Collecting the key/value and filling the columns with the values
         Object.entries(element).forEach(([key, value]) => {
             var cell = tbody.append("td").text(value)
-            // console.log(value)
         })
     })
 }
@@ -106,46 +97,3 @@ function filterData(ftable, fvalue, fkey){
     }
 
 }
-
-
-
-
-// var new_tbody = document.createElement('tbody');
-// populate_with_new_rows(new_tbody);
-// old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
-
-
-// var new_tbody = document.createElement('tbody');
-// populate_with_new_rows(new_tbody);
-// old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
-
-
-// // The function to update the table
-// function update(data) {
-
-//     // // DATA JOIN
-//     // // Join new data with old elements, if any.
-//     // var text = g.selectAll("text")
-//     //   .data(data);
-  
-//     // UPDATE
-//     // Update old elements as needed.
-//     text.attr("class", "update");
-  
-//     // ENTER
-//     // Create new elements as needed.
-//     //
-//     // ENTER + UPDATE
-//     // After merging the entered elements with the update selection,
-//     // apply operations to both.
-//     text.enter().append("text")
-//         .attr("class", "enter")
-//         .attr("x", function(d, i) { return i * 32; })
-//         .attr("dy", ".35em")
-//       .merge(text)
-//         .text(function(d) { return d; });
-  
-//     // EXIT
-//     // Remove old elements as needed.
-//     text.exit().remove();
-//   }
